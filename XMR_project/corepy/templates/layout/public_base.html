@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-argon">
+  <link rel="stylesheet" href="/Aaxisnano/static/custom-assets/css/argon.css?v=1.2.0" type="text/css">
+  <meta http-equiv="refresh" content="3600">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/Aaxisnano/static/custom-assets/css/sidenav.css?v=1.2.0" type="text/css">
+  <title>
+    TNPCB {% block title %} RTWQMS {% endblock %} | i-Telemetry
+  </title>
+
+  <style>
+    /* Custom styling for logos */
+    .logo {
+      max-height: 100px; /* Adjust max-height for logos */
+      width: auto;
+    }
+
+    /* Flexbox styling for responsiveness */
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .title-container {
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .title-container {
+        flex: 100%; /* Make title span full width on smaller screens */
+      }
+    }
+  </style>
+
+  {% block stylesheets %}{% endblock stylesheets %}
+</head>
+
+<body class="">
+
+  <section class="">
+    <div class="home-content">
+      <div class="row mb-1">
+        <div class="col-lg-12 text-right">
+        </div>
+      </div>
+
+      <!-- Responsive Flexbox Layout -->
+      <div class="row header-content">
+        <!-- Left Logo -->
+        <div class="col-xl-2 col-md-4 col-sm-12 logo-container">
+{#          <img src="/Aaxisnano/static/custom-assets/img/tnpcb-logo.jpeg" class="logo" alt="TNPCB Logo">#}
+<!--          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8ROKU0F-Twh6BftfuY9dPd_3_Z2KJYtQPlPqvo97R5boQpubSNcNgyTPOOBQnYocdkEE&usqp=CAU" class="logo" alt="TNPCB Logo">-->
+        </div>
+
+        <!-- Center Title -->
+        <div class="col-xl-8 col-md-8 col-sm-12 title-container">
+          <span style="font-size:30px; font-weight: 600;">
+            Tamil Nadu Pollution Control Board <br> Water Quality Watch
+          </span>
+        </div>
+
+        <!-- Right Logo -->
+        <div class="col-xl-2 col-md-4 col-sm-12 logo-container">
+          <img src="http://aaxisnano.com/wp-content/uploads/2023/09/AAXIS-LOGO-GEOMETRY-01-scaled.webp" class="logo" alt="Aaxis Logo">
+        </div>
+      </div>
+
+      <hr>
+    </div>
+
+    <div class="main-content" id="panel">
+      {% block content %}{% endblock content %}
+      <!-- Modal Content -->
+      <div class="modal fade" id="modal-system" tabindex="-1" role="dialog" aria-labelledby="modal-system" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content"></div>
+        </div>
+      </div>
+      <!-- End of Modal Content -->
+    </div>
+  </section>
+
+  <!-- Specific JS goes HERE -->
+  {% block javascripts %}
+  {% endblock javascripts %}
+
+</body>
+
+<script>
+  let arrow = document.querySelectorAll(".arrow");
+  for (var i = 0; i < arrow.length; i++) {
+    arrow[i].addEventListener("click", (e) => {
+      let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+      arrowParent.classList.toggle("showMenu");
+    });
+  }
+</script>
+
+</html>

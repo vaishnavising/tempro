@@ -1,0 +1,40 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block dashboard_active %}active{% endblock %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/custom-assets/css/argon.css?v=1.2.0" type="text/css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+<style>
+    .btn-icon-clipboard:hover {
+        background-color: #f6f9fc;
+        box-shadow: rgba(0, 0, 0, .1) 0 0 0 1px, rgba(0, 0, 0, .1) 0 4px 16px;
+    }
+    table.dataTable tbody tr:hover {
+        background-color: rgb(245, 240, 240) !important;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS1mS6Y0c0VMcY5euijXzITuifVP4qnVE&callback=&style=feature:administrative%7Celement:geometry%7Cvisibility:off&style=feature:poi%7Cvisibility:off&style=feature:road%7Cvisibility:off&style=feature:road%7Celement:labels.icon%7Cvisibility:off&style=feature:transit%7Cvisibility:off"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    new DataTable('#example');
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
+{% endblock javascripts %}

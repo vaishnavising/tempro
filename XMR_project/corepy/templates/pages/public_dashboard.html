@@ -1,0 +1,161 @@
+{% extends 'layout/public_base.html' %}
+{% load static %}
+{% block dashboard_active %}active{% endblock %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/Aaxisnano/static/custom-assets/css/argon.css?v=1.2.0" type="text/css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+<style>
+    .btn-icon-clipboard:hover {
+        background-color: #f6f9fc;
+        box-shadow: rgba(0, 0, 0, .1) 0 0 0 1px, rgba(0, 0, 0, .1) 0 4px 16px;
+    }
+    table.dataTable tbody tr:hover {
+        background-color: rgb(245, 240, 240) !important;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-white pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row row align-items-center py-4 col">
+                <div class="col bg-gradient-red d-flex align-items-center justify-content-center text-center"
+                    style="height: 80px;">
+                    <div>
+                        <span class="h2 font-weight-bold text-white">{{sites|length}}</span>
+                        <h5 class="text-uppercase text-white">Total Stations</h5>
+                    </div>
+                </div>
+                <div class="col bg-gradient-green d-flex align-items-center justify-content-center text-center"
+                    style="height: 80px;">
+                    <div>
+                        <span class="h2 font-weight-bold text-white">{{live_sites}}</span>
+                        <h5 class="text-uppercase text-white">Live Stations</h5>
+                    </div>
+                </div>
+                <div class="col bg-gradient-orange d-flex align-items-center justify-content-center text-center"
+                    style="height: 80px;">
+                    <div>
+                        <span class="h2 font-weight-bold text-white">{{offline_sites}}</span>
+                        <h5 class="text-uppercase text-white">Offline Stations</h5>
+                    </div>
+                </div>
+                <div class="col bg-gradient-info d-flex align-items-center justify-content-center text-center"
+                    style="height: 80px;">
+                    <div>
+                        <span class="h2 font-weight-bold text-white">{{delay_sites}}</span>
+                        <h5 class="text-uppercase text-white">Delay Stations</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">      
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0"  style="background-color: #ced3d7; padding: 5px; border-radius: 5px;">RTWQMS STATIONS
+                                <span class="float-right mr-2">
+                                    <a href="/Aaxisnano/new_reports" style="font-size:10px;font-weight:600;" class="btn btn-sm btn-primary"><i class="fa-solid fa-file"></i>Reports</a>
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive mt-2" style="height: 700px;">
+                        <table id="example" class="table table-bordered teable-sm" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 20%;">River</th>
+                                    <th class="text-center" style="width: 10%;">Station</th>
+                                    <th class="text-center" style="width: 10%;">Location</th>
+                                    <th class="text-center" style="width: 25%;">Status</th>
+                                    <th class="text-center" style="width: 10%;">Prefix</th>
+                                    <th class="text-center" style="width: 15%;">Last Reading</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for site in sites %}
+                                <tr>
+                                    <td class="text-center" style="width: 20%;">
+<!--{#                                        <a href="{% url "site_detail" site.uuid %}" class="text-primary">#}-->
+<!--{#                                        <a href="#" class="text-primary">#}-->
+<!--{#                                            <strong>#}-->
+                                                {{site.river.name}}
+<!--                                                {{site.industry.name|upper}}-->
+<!--{#                                            </strong>#}-->
+<!--{#                                        </a>#}-->
+                                    </td>
+                                    <td class="text-center" style="width: 10%;">
+                                        <a href="/Aaxisnano{% url 'rtwqms:site-info' site.id %}" class="text-primary">
+                                            <strong>
+                                                {{site.name|title}}
+<!--                                                {{site.name|title}} | {{site.city|title}} | {{site.state|title}}-->
+                                            </strong>
+                                        </a>
+                                    </td>
+                                    <td class="text-center" style="width: 10%;">
+                                        {{site.address|title}}
+                                        <br>
+                                        Lt:{{site.latitude|title}}; Ln: {{site.longitude|title}}
+                                    </td>
+
+                                    <td class="text-center" style="width: 15%;">
+                                        {% if site.status == 'NAT' or site.status == 'Offline' %}
+                                            <span class="badge badge-danger"><strong>{{site.status}}</strong></span>
+                                        {% elif site.status == 'Live' %}
+                                            <span class="badge badge-success"><strong>{{site.status}}</strong></span>
+                                        {% elif site.status == 'Delay' %}
+                                            <span class="badge badge-warning"><strong>{{site.status}}</strong></span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center" style="width: 10%;">
+                                        {{site.prefix}}
+                                    </td>
+                                    <td class="text-center" style="width: 15%;">
+                                        {% if site.siteinfo.timestamp %}
+                                            {{site.siteinfo.timestamp}}
+                                        {% else %}
+                                            <strong class="text-danger">-</strong>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS1mS6Y0c0VMcY5euijXzITuifVP4qnVE&callback=&style=feature:administrative%7Celement:geometry%7Cvisibility:off&style=feature:poi%7Cvisibility:off&style=feature:road%7Cvisibility:off&style=feature:road%7Celement:labels.icon%7Cvisibility:off&style=feature:transit%7Cvisibility:off"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    new DataTable('#example');
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
+{% endblock javascripts %}
