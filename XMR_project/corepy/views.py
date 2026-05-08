@@ -9,26 +9,6 @@ from captcha.helpers import captcha_image_url
 from django.core.cache import cache
 
 
-
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#
-#         username = request.POST.get('email')   # ✅ HTML se match
-#         password = request.POST.get('password')
-#
-#         user = authenticate(request, username=username, password=password)
-#
-#         if user is not None:
-#             login(request, user)
-#             return redirect('dashboard')
-#         else:
-#             messages.error(request, 'Invalid username or password')
-#
-#     return render(request, 'login.html')
-
-
 def login_view(request):
 
     if request.user.is_authenticated:
@@ -97,15 +77,7 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     tmplt = get_template("pages/dashboard.html")
-
-    # Only show "Kamarajar Port Limited Chennai" to customer@tpro.com
-
-    context = {
-        # "sites": sites,
-        # "live_sites": sites.filter(status="Live").count(),
-        # "delay_sites": sites.filter(status="Delay").count(),
-        # "offline_sites": sites.filter(status="Offline").count(),
-    }
+    context = {}
 
     html = tmplt.render(context, request)
     return HttpResponse(html)
