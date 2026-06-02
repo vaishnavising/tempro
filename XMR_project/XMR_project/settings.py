@@ -78,23 +78,24 @@ WSGI_APPLICATION = 'XMR_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-#
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
- #     }
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'antpl',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': '@@nano@2026',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
+# ALTER USER postgres WITH PASSWORD '@@xmrcorepy@2026';kaise
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -133,6 +134,21 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+]
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
